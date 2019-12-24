@@ -25,7 +25,7 @@ class example extends Phaser.Scene {
 
         //key handle
         this.keys_handle = this.input.keyboard.createCursorKeys();
-        this.key_ENTER =  this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
+        this.key_ENTER = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
 
         //bullet
         var Bullet = new Phaser.Class({
@@ -65,9 +65,9 @@ class example extends Phaser.Scene {
 
         this.speed = Phaser.Math.GetSpeed(300, 1);
 
-         //enimy
-         this.enimies = this.add.group();
-         this.enimies = true;
+        //enimy
+        this.enimies = this.add.group();
+        this.enimies = true;
         //  this.enimies.physicsBodyType = phaser.Physics.ARCADE;
 
 
