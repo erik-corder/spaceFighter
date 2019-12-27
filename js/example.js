@@ -4,15 +4,18 @@ class example extends Phaser.Scene {
         this.speed;
         this.lastFired = 0;
         this.enimy = [];
+        this.enimy2 = [];
         this.i = 0;
         this.timer = 0;
     }
 
     preload() {
         this.load.image('GFS', 'assets/derelict_spce.png');
+
         this.load.image('player', 'assets/player.png');
         this.load.image('bullet', 'assets/bulate.png');
         this.load.image('enimy', 'assets/enimy.png');
+        this.load.image('enimy2', 'assets/Ship5.png');
 
         this.load.image('explosion1', 'assets/Explosion2/Explosion2_1.png');
         this.load.image('explosion2', 'assets/Explosion2/Explosion2_2.png');
@@ -61,7 +64,7 @@ class example extends Phaser.Scene {
         this.player = this.physics.add.sprite(120, 260, 'player');
         this.player.displayWidth = 45;
         this.player.displayHeight = 45;
-        this.player.setScale(0.2, 0.2);
+
 
         //key handle
         this.keys_handle = this.input.keyboard.createCursorKeys();
@@ -76,7 +79,6 @@ class example extends Phaser.Scene {
 
                 function Bullet(scene) {
                     Phaser.GameObjects.Sprite.call(this, scene, 0, 0, 'bullet');
-
                     this.speed = Phaser.Math.GetSpeed(400, 1);
                 },
 
@@ -106,9 +108,14 @@ class example extends Phaser.Scene {
         this.speed = Phaser.Math.GetSpeed(300, 1);
 
         //enimy
-        this.enimy[this.i] = this.physics.add.sprite(120, 30, 'enimy');
+        this.enimy[this.i] = this.physics.add.sprite(150, 30, 'enimy');
         this.enimy[this.i].displayWidth = 45;
         this.enimy[this.i].displayHeight = 45;
+
+        //enimy
+        this.enimy2[this.i] = this.physics.add.sprite(90, 30, 'enimy2');
+        this.enimy2[this.i].displayWidth = 45;
+        this.enimy2[this.i].displayHeight = 45;
     }
 
     randy(x, y) {
@@ -119,6 +126,17 @@ class example extends Phaser.Scene {
         bullets.destroy();
         enimy.destroy();
         this.add.sprite(bullets.x, bullets.y, 'explosion5').play('explosion');
+    }
+
+    collision3(bullets, enimy2) {
+        bullets.destroy();
+        enimy2.destroy();
+        this.add.sprite(bullets.x, bullets.y, 'explosion5').play('explosion');
+    }
+
+    collision2(player, enimy) {
+        player.destroy();
+        this.add.sprite(player.x, player.y, 'explosion5').play('explosion');
     }
 
     collision2(player, enimy) {
@@ -133,6 +151,8 @@ class example extends Phaser.Scene {
         // this.physics.arcade.overlap(this.bullets,this.enimy,collision1,null,this);
         this.a = this.physics.overlap(this.bullets, this.enimy, this.collision1, null, this);
         this.b = this.physics.overlap(this.player, this.enimy, this.collision2, null, this);
+        this.c = this.physics.overlap(this.bullets, this.enimy2, this.collision3, null, this);
+        this.d = this.physics.overlap(this.player, this.enimy2, this.collision3, null, this);
 
         //scroll background
         this.background.tilePositionY -= 2;
@@ -166,10 +186,11 @@ class example extends Phaser.Scene {
             var fire = this.sound.add('fire');
             fire.play();
         }
-        for (var i = 0; i <= 10; i++) {
-            // this.enimy[this.i].x -= 0.08;
-            this.enimy[this.i].y += 0.08;
-        }
+
+        this.enimy[this.i].y += 0.9;
+
+
+        this.enimy2[this.i].y += 2;
 
         //console.log(this.timer)
         if (this.timer / 400 % 1 == 0 && this.timer != 0) {
@@ -177,6 +198,15 @@ class example extends Phaser.Scene {
             this.enimy[this.i].displayWidth = 45;
             this.enimy[this.i].displayHeight = 45;
         }
+
+        //console.log(this.timer)
+        if (this.timer / 300 % 1 == 0 && this.timer != 0) {
+            this.enimy2[this.i] = this.physics.add.sprite(this.randy(10, 230), 0, 'enimy2');
+            this.enimy2[this.i].displayWidth = 45;
+            this.enimy2[this.i].displayHeight = 45;
+        }
+
+
     }
 
 }
