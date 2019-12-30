@@ -1,12 +1,13 @@
 class example extends Phaser.Scene {
     constructor() {
-        super({ key: "example", active: true });
+        super({ key: "example" });
         this.speed;
         this.lastFired = 0;
         this.enimy = [];
         this.enimy2 = [];
         this.i = 0;
         this.timer = 0;
+        this.score = 0;
     }
 
     preload() {
@@ -28,6 +29,11 @@ class example extends Phaser.Scene {
         this.load.image('explosion9', 'assets/Explosion2/Explosion2_9.png');
         this.load.image('explosion10', 'assets/Explosion2/Explosion2_10.png');
         this.load.image('explosion11', 'assets/Explosion2/Explosion2_11.png');
+
+        this.load.image('flight1', 'assets/Turbo_flight/Ship5_turbo_flight_001.png');
+        this.load.image('flight2', 'assets/Turbo_flight/Ship5_turbo_flight_003.png');
+        this.load.image('flight3', 'assets/Turbo_flight/Ship5_turbo_flight_005.png');
+        this.load.image('flight4', 'assets/Turbo_flight/Ship5_turbo_flight_007.png');
 
         this.load.audio('fire', 'assets/audio/fire.mp3');
     }
@@ -55,6 +61,19 @@ class example extends Phaser.Scene {
             hideOnComplete: true
         });
 
+        this.anims.create({
+            key: 'flight',
+            frames: [
+                { key: 'flight1' },
+                { key: 'flight2' },
+                { key: 'flight3' },
+                { key: 'flight4' }
+            ],
+            frameRate: 5,
+            repeat: 100,
+            //hideOnComplete: true
+        });
+
         //background
         this.background = this.add.tileSprite(0, 0, 240, 360, 'GFS');
         this.background.setOrigin(0, 0);
@@ -64,11 +83,15 @@ class example extends Phaser.Scene {
         this.player = this.physics.add.sprite(120, 260, 'player');
         this.player.displayWidth = 45;
         this.player.displayHeight = 45;
+        this.flight1 = this.add.sprite(110, 285, 'flight1').play('flight');
+        this.flight2 = this.add.sprite(130, 285, 'flight1').play('flight');
+
 
 
         //key handle
         this.keys_handle = this.input.keyboard.createCursorKeys();
         this.key_ENTER = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
+        this.key_ONE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ONE);
 
         //bullet
         var Bullet = new Phaser.Class({
@@ -79,7 +102,7 @@ class example extends Phaser.Scene {
 
                 function Bullet(scene) {
                     Phaser.GameObjects.Sprite.call(this, scene, 0, 0, 'bullet');
-                    this.speed = Phaser.Math.GetSpeed(400, 1);
+                    this.speed = Phaser.Math.GetSpeed(300, 1);
                 },
 
             fire: function (x, y) {
@@ -116,6 +139,9 @@ class example extends Phaser.Scene {
         this.enimy2[this.i] = this.physics.add.sprite(90, 30, 'enimy2');
         this.enimy2[this.i].displayWidth = 45;
         this.enimy2[this.i].displayHeight = 45;
+
+        //score
+        this.scoreText = this.add.text(16, 20, "Score: 0", { font: "15px Impact", color: "white" });
     }
 
     randy(x, y) {
@@ -126,22 +152,26 @@ class example extends Phaser.Scene {
         bullets.destroy();
         enimy.destroy();
         this.add.sprite(bullets.x, bullets.y, 'explosion5').play('explosion');
+        this.score++;
     }
 
     collision3(bullets, enimy2) {
         bullets.destroy();
         enimy2.destroy();
         this.add.sprite(bullets.x, bullets.y, 'explosion5').play('explosion');
+        this.score++;
     }
 
     collision2(player, enimy) {
         player.destroy();
         this.add.sprite(player.x, player.y, 'explosion5').play('explosion');
+        return true;
     }
 
-    collision2(player, enimy) {
+    collision4(player, enimy) {
         player.destroy();
         this.add.sprite(player.x, player.y, 'explosion5').play('explosion');
+        return true;
     }
 
     update(time, delta) {
@@ -152,7 +182,15 @@ class example extends Phaser.Scene {
         this.a = this.physics.overlap(this.bullets, this.enimy, this.collision1, null, this);
         this.b = this.physics.overlap(this.player, this.enimy, this.collision2, null, this);
         this.c = this.physics.overlap(this.bullets, this.enimy2, this.collision3, null, this);
-        this.d = this.physics.overlap(this.player, this.enimy2, this.collision3, null, this);
+        this.d = this.physics.overlap(this.player, this.enimy2, this.collision4, null, this);
+
+        if (this.b == true || this.d == true) {
+            setTimeout(() => {
+                this.scoreText = this.add.text(60, 170, "GAME OVER", { font: "25px Impact", color: "white" });
+                this.scene.pause();
+            }, 1000)
+
+        }
 
         //scroll background
         this.background.tilePositionY -= 2;
@@ -160,19 +198,26 @@ class example extends Phaser.Scene {
         //key handle
         if (this.keys_handle.left.isDown) {
             this.player.x--;
-            // this.player.angle -= 1;
+            this.flight1.x--;
+            this.flight2.x--;
         }
 
         if (this.keys_handle.right.isDown) {
             this.player.x++;
+            this.flight1.x++;
+            this.flight2.x++;
         }
 
         if (this.keys_handle.up.isDown) {
             this.player.y--;
+            this.flight1.y--;
+            this.flight2.y--;
         }
 
         if (this.keys_handle.down.isDown) {
             this.player.y++;
+            this.flight1.y++;
+            this.flight2.y++;
         }
 
         if (this.key_ENTER.isDown && time > this.lastFired) {
@@ -190,13 +235,13 @@ class example extends Phaser.Scene {
         this.enimy[this.i].y += 0.9;
 
 
-        this.enimy2[this.i].y += 2;
+        this.enimy2[this.i].y += 0.5;
 
         //console.log(this.timer)
         if (this.timer / 400 % 1 == 0 && this.timer != 0) {
             this.enimy[this.i] = this.physics.add.sprite(this.randy(10, 230), 0, 'enimy');
             this.enimy[this.i].displayWidth = 45;
-            this.enimy[this.i].displayHeight = 45;
+            this.enimy[this.i].displayHeight = 45;  
         }
 
         //console.log(this.timer)
@@ -206,7 +251,7 @@ class example extends Phaser.Scene {
             this.enimy2[this.i].displayHeight = 45;
         }
 
-
+        this.scoreText.setText("Score: " + this.score);
     }
 
 }
