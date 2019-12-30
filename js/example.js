@@ -1,6 +1,6 @@
 class example extends Phaser.Scene {
     constructor() {
-        super({ key: "example" });
+        super({ key: "example"});
         this.speed;
         this.lastFired = 0;
         this.enimy = [];
@@ -186,7 +186,7 @@ class example extends Phaser.Scene {
 
         if (this.b == true || this.d == true) {
             setTimeout(() => {
-                this.scoreText = this.add.text(60, 170, "GAME OVER", { font: "25px Impact", color: "white" });
+                this.scoreText = this.add.text(60, 160, "GAME OVER", { font: "25px Impact", color: "white" });
                 this.scene.pause();
             }, 1000)
 
@@ -235,13 +235,13 @@ class example extends Phaser.Scene {
         this.enimy[this.i].y += 0.9;
 
 
-        this.enimy2[this.i].y += 0.5;
+        this.enimy2[this.i].y += 2;
 
         //console.log(this.timer)
         if (this.timer / 400 % 1 == 0 && this.timer != 0) {
             this.enimy[this.i] = this.physics.add.sprite(this.randy(10, 230), 0, 'enimy');
             this.enimy[this.i].displayWidth = 45;
-            this.enimy[this.i].displayHeight = 45;  
+            this.enimy[this.i].displayHeight = 45;
         }
 
         //console.log(this.timer)

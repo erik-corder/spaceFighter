@@ -62,7 +62,7 @@ class start extends Phaser.Scene {
     update(time, delta) {
 
         //scroll background
-        this.background.tilePositionY -= 0.5;
+        this.background.tilePositionY -= 2;
     }
 
 }
