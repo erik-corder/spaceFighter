@@ -25,7 +25,7 @@ class start extends Phaser.Scene {
                 { key: 'flight44' }
             ],
             frameRate: 5,
-            repeat: 10,
+            repeat: 1000    ,
             //hideOnComplete: true
         });
 

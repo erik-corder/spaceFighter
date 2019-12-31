@@ -186,7 +186,7 @@ class example extends Phaser.Scene {
 
         if (this.b == true || this.d == true) {
             setTimeout(() => {
-                this.scoreText = this.add.text(60, 160, "GAME OVER", { font: "25px Impact", color: "white" });
+                this.title = this.add.text(65, 120, "Game Over", { font: "25px Impact", color: "white" });
                 this.scene.pause();
             }, 1000)
 
