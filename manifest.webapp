@@ -1,35 +1,46 @@
 {
-    "name": "KaiOS",
-    "description": "Demonstrates a basic KaiOS app",
-    "version": "0.0.1",
-    "developer": {
-      "name": "Your name",
-      "url": "http://example.com"
+  "version": "1.0.0",
+  "name": "Space ships",
+  "launch_path": "/index.html",
+  "description": "Await your chance to aim all the bullets onto the enemy ships. There are 1 levels, and gets harder with other objects and obstacles added",
+  "subtitle": "Aim the enemy to destroy the ships!",
+  "type": "web",
+  "icons": {
+    "56": "/icons/icon56.png",
+    "112": "/icons/icon112.png"
+  },
+  "developer": {
+    "name": "Isuru",
+    "url": "https://www.eyepax.com"
+  },
+  "dependencies": {
+		"ads-sdk": "1.3.0"
+	},
+  "installs_allowed_from": [
+    "*"
+  ],
+  "default_locale": "en-US",
+  "categories": [
+    "sports",
+    "games"
+  ],
+  "permissions": {
+    "desktop-notification": {
+      "description": "To show notifications"
     },
-    "launch_path": "/index.html",
-      "icons": {
-      "56": "/icons/icon56.png",
-      "112": "/icons/icon112.png "
+    "geolocation": {
+      "description": "Marking out user location"
     },
-    "theme_color": "#a065e6",
-    "type": "privileged",
-    "permissions": {
-      "systemXHR": {}
-    },
-    "chrome": {
-      "statusbar": "overlap"
-    },
-    "orientation": "default",
-    "locales": {
-      "en-US": {
-        "name": "Template",
-        "description": "Template App for KaiOS"
-      },
-      "zh-CN": {
-        "name": "模板",
-        "description": "KaiOS模板应用"
-      }
-    },
-    "default_locale": "en-US"
+    "alarms": {
+      "description": "Scheduling alarms"
+    }
+  },
+  "fullscreen": "true",
+  "locales": {
+     "en-US": {
+      "name": "Space ships",
+      "subtitle": "Aim the enemy to destroy the ships!",
+      "description": "Await your chance to aim all the bullets onto the enemy ships. There are 1 levels, and gets harder with other objects and obstacles added"
+    }
   }
-  
+}

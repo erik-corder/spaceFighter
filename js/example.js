@@ -1,6 +1,6 @@
 class example extends Phaser.Scene {
     constructor() {
-        super({ key: "example"});
+        super({ key: "example" });
         this.speed;
         this.lastFired = 0;
         this.enimy = [];
@@ -189,7 +189,6 @@ class example extends Phaser.Scene {
                 this.title = this.add.text(65, 120, "Game Over", { font: "25px Impact", color: "white" });
                 this.scene.pause();
             }, 1000)
-
         }
 
         //scroll background
